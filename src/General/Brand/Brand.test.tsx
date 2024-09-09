@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as renderer from 'react-test-renderer';
 import 'jest-styled-components';
 import { render, fireEvent } from '@testing-library/react';
 
@@ -7,16 +6,18 @@ import Brand from './Brand';
 
 describe('<Brand/>', () => {
   it('should render as expected', () => {
-    const blackLogoSnapshot = renderer
-      .create(<Brand asset="glints-black" />)
-      .toJSON();
-    expect(blackLogoSnapshot).toMatchSnapshot();
-    const white = renderer.create(<Brand asset="glints-white" />).toJSON();
-    expect(white).toMatchSnapshot();
-    const cutsom = renderer
-      .create(<Brand asset="http://example.com/example.jpg" />)
-      .toJSON();
-    expect(cutsom).toMatchSnapshot();
+    const { asFragment: blackLogoAsFragment } = render(
+      <Brand asset="glints-black" />
+    );
+    expect(blackLogoAsFragment()).toMatchSnapshot();
+    const { asFragment: whiteLogoAsFragment } = render(
+      <Brand asset="glints-white" />
+    );
+    expect(whiteLogoAsFragment()).toMatchSnapshot();
+    const { asFragment: customLogoAsFragment } = render(
+      <Brand asset="http://example.com/example.jpg" />
+    );
+    expect(customLogoAsFragment()).toMatchSnapshot();
   });
 
   it('should open the given rightClickUrl', () => {
